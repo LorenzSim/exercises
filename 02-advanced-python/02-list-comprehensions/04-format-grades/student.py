@@ -1,3 +1,3 @@
 # Write your code here
-def average(numbers): return round(sum(numbers) / len(numbers))
-def format_grades(grades): return "\n".join(f'{student}: {average(grade)}' for student, grade in grades.items())
+def average(grades): return round(sum(grades) / len(grades))
+def format_grades(grades): return '\n'.join(f'{name}: {average(grade)}' for (name, grade) in grades.items())
