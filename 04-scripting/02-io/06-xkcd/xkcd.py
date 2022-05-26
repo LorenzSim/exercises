@@ -1,23 +1,11 @@
-import json
-import sys
-import urllib.request
+import json, re, ssl, sys, urllib.request 
+from PIL import Image as image
 
-import cv2
+ssl._create_default_https_context = ssl._create_unverified_context
 
-number = sys.argv[1]
-url = f'https://xkcd.com/{number}/info.0.json'
+number = '' if len(sys.argv) == 1 else re.sub(' ', '%20', sys.argv[1]) + '/'
+url = f'https://xkcd.com/{number}info.0.json'
 
-with urllib.request.urlopen(url) as input:
-    data = json.loads(input)
-    picture_url = data['img']
-    
-    with urllib.request.urlopen(picture_url) as input_picture:
-        img = cv2.imread(input_picture, cv2.IMREAD_ANYCOLOR)
-        while True:
-            cv2.imshow("test", img)
-            cv2.waitKey(0)
-            sys.exit()
-        cv2.destroyAllWindows()
+with urllib.request.urlopen(url) as input: content = json.loads(input.read())
 
-
-    
+with urllib.request.urlopen(content['img']) as input: image.open(input).show()

@@ -1,9 +1,8 @@
-import sys
 import urllib.request
+import sys
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
-import urllib3
-
-with urllib3.request.urlopen(sys.argv[1]) as content:
-    print(content.read())
-
-
+with urllib.request.urlopen(sys.argv[1]) as input:
+   print(input.read())
+   

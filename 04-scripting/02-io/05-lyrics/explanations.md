@@ -81,8 +81,7 @@ Tell me sweetie, what's my name?
 You can use the url `https://api.lyrics.ovh/v1/artist/title` to fetch the lyrics, where `artist` and `title` must
 be replaced by actual data. Keep in mind that URLs are not allowed to contain spaces: these must
 be replaced by `%20`. For example, to get the lyrics for Sympathy for the Devil by The Rolling Stones,
-you need to download `
-https://api.lyrics.ovh/v1/rolling%20stones/sympathy%20for%20the%20devil`.
-https://api.lyrics.ovh/v1/rolling%20stones/sympathy%20for%20the%20devil
+you need to download `https://api.lyrics.ovh/v1/rolling%20stones/sympathy%20for%20the%20devil`.
+
 The result will be returned as a json string. Do not parse this manually.
 Instead, look for a Python module that performs this task for you.

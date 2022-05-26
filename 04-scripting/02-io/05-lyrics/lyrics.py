@@ -1,15 +1,14 @@
 import json
+import re
 import sys
-
 import urllib.request
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
-def replace_space(string): return string.replace(' ', '%20')
+def replace_space(string): return re.sub(' ', '%20', string)
 
-artist = replace_space(sys.argv[1])
-song = replace_space(sys.argv[2])
+url = f'https://api.lyrics.ovh/v1/{replace_space(sys.argv[1])}/{replace_space(sys.argv[2])}'
 
-url = f'https://api.lyrics.ovh/v1/{artist}/{song}'
-
-with urllib.request.urlopen(url) as content:
-    lyrics = json.loads(content.read())
-    print(lyrics['lyrics'])
+with urllib.request.urlopen(url) as input:
+    content = json.loads(input.read())
+    print(content['lyrics'])

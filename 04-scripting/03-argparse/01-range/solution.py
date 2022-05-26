@@ -15,5 +15,4 @@ start = args.start
 end = args.end + args.end_delta
 step = args.step
 
-for i in range(start, end, step):
-    print(i)
+for i in range(start, end, step): print(i)

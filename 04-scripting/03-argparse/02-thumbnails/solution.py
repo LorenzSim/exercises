@@ -39,7 +39,6 @@ pattern = args.pattern
 
 for input_file in input_files:
     output_file = derive_output_filename(pattern, input_file)
-
     image = Image.open(input_file)
     image.thumbnail(size)
     image.save(output_file)

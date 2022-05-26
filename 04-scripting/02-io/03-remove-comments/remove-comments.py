@@ -1,12 +1,13 @@
 import re
 import sys
 
-def remove_comments(string):
-    return re.sub('#.*$', '', string,flags=re.MULTILINE)
+def remove_comment_from_line(string): 
+    return re.sub('#.*', '', string, flags=re.MULTILINE)
 
-for file in sys.argv[1:]:
-    with open(file, 'r') as f:
-        content = f.read()
-        
-    with open(file, 'w') as f:
-        f.write(remove_comments(content))
+for filename in sys.argv[1:]:
+    with open(filename) as file:
+        content = file.read()
+
+    with open(filename, 'w') as file:
+        file.write(remove_comment_from_line(content))
+
