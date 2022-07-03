@@ -1,44 +1,22 @@
-from urllib.request import urlopen
-import argparse
-import json
+import json, re, sys
+import requests as req
 
+def download_cocktail(url): 
+    return json.load(req.get(url).text.decode('utf-8'))['drinks'][0]
 
-base_url = 'https://www.thecocktaildb.com/api/json/v1/1'
+def is_ingredient_key(key):
+    return re.fullmatch('strIngredient\d', key)
 
-def download(url):
-    with urlopen(url) as response:
-        return response.read().decode('utf-8')
+def replace_space(string): return re.sub(' ', '%20', string)
 
+if len(sys.argv) > 1: url = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={replace_space(sys.argv[1])}'
+else: url = 'https://www.thecocktaildb.com/api/json/v1/1/random.php'
 
-def find_by_name(name):
-    name = name.replace(' ', '%20')
-    url = f"{base_url}/search.php?s={name}"
-    data = download(url)
-    show(data)
+cocktail = download_cocktail(url)
+print(cocktail['strDrink'])
 
-def find_random():
-    url = f"{base_url}/random.php"
-    data = download(url)
-    show(data)
-
-
-def show(data):
-    data = json.loads(data)
-    for drink in data['drinks']:
-        print(drink['strDrink'])
-        for i in range(1, 16):
-            ingredient = drink[f'strIngredient{i}']
-            if ingredient is not None:
-                measure = drink[f'strMeasure{i}']
-                print(f"{ingredient}{f'({measure.strip()})' if measure else ''}")
-        print()
-
-
-parser = argparse.ArgumentParser()
-parser.add_argument('name', nargs='?')
-args = parser.parse_args()
-
-if args.name:
-    find_by_name(args.name)
-else:
-    find_random()
+for i in range(1, 16):
+    ingredient = cocktail[f"strIngredient{i}"]
+    amount = cocktail[f"strMeasure{i}"]
+    if ingredient == None: break
+    print(f'{ingredient} ({amount.strip()})')

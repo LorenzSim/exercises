@@ -1,0 +1,12 @@
+[
+    {
+        "fname": "John",
+        "lname": "Johnson",
+        "grade": "15"
+    },
+    {
+        "fname": "Anne",
+        "lname": "Moon",
+        "grade": "18"
+    }
+]

@@ -1,19 +1,20 @@
-from urllib.request import urlopen
-import argparse
+from argparse import ArgumentParser
 import json
 
+import requests as req 
 
-base_url = 'https://api.genderize.io'
-
-
-parser = argparse.ArgumentParser()
+parser = ArgumentParser(prog='genderize')
 parser.add_argument('name')
+
 args = parser.parse_args()
 
-with urlopen(f"{base_url}/?name={args.name}") as response:
-    data = json.loads(response.read().decode('utf-8'))
+url = f'https://api.genderize.io/?name={args.name}'
 
-gender = data['gender']
-probability = round(data['probability'] * 100)
+data = json.loads(req.get(url).text)
 
-print(f"{gender} ({probability}%)")
+gender = data["gender"]
+probability = int(float(data["probability"]) * 100)
+
+print(f'{gender} ({probability}%)')
+
+

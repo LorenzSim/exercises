@@ -1,25 +1,17 @@
-#!/usr/bin/env python
 
-import argparse
+from argparse import ArgumentParser
 import sys
 
 
-def create_parser():
-    parser = argparse.ArgumentParser(prog='tail')
-    parser.add_argument('file', help='file', nargs='?')
-    parser.add_argument('-n', '--lines', help='number of lines to print', action='store', default=5, type=int)
-    return parser
+parser = ArgumentParser(prog='tail', description='print out the last 10 lines of a file')
+parser.add_argument('filename', nargs='?')
+parser.add_argument('-n', '--lines', type=int, default=10)
 
+args = parser.parse_args()
 
-def print_tail(stream, n):
-    lines = stream.readlines()
-    for line in lines[-n:]:
-        print(line, end="")
+if args.filename: 
+    with open(args.filename) as file: content = file.readlines()
 
-args = create_parser().parse_args()
+else: content = sys.stdin.readlines()
 
-if args.file:
-    with open(args.file, 'r') as file:
-        print_tail(file, args.lines)
-else:
-    print_tail(sys.stdin, args.lines)
+print(''.join(content[-args.lines:]), end='')
